@@ -147,4 +147,5 @@ dmypy.json
 .pytype/
 /static
 /media
+settings.py
 # End of https://www.toptal.com/developers/gitignore/api/django
