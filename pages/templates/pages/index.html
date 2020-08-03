@@ -13,7 +13,7 @@
                         asperiores eveniet vel nostrum magnam
                         voluptatum tempore! Consectetur, id commodi!</p>
                     <div class="search">
-                        <form action="{% url 'search'%}">
+                        <form action="{% url 'search' %}">
                             <!-- Form Row 1 -->
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
@@ -68,6 +68,7 @@
     </section>
 
     <!-- Listings -->
+    {% include "partials/alerts.html" %}
     <section id="listings" class="py-5">
         <div class="container">
             <h3 class="text-center mb-3">Latest Listings</h3>
