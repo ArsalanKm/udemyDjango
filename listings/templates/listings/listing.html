@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% block title %} | {{ listing.title }} {% endblock %}
 {% block content %}
 
     <section id="showcase-inner" class="py-5 text-white">
@@ -32,6 +33,7 @@
             </nav>
         </div>
     </section>
+    {% include "partials/alerts.html" %}
 
     <!-- Listing -->
     <section id="listing" class="py-4">
@@ -146,7 +148,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card mb-3">
-                        <img class="card-img-top" src="{{ listing.realtor.photo.url }}" >
+                        <img class="card-img-top" src="{{ listing.realtor.photo.url }}">
                         <div class="card-body">
                             <h5 class="card-title">Property Realtor</h5>
                             <h6 class="text-secondary">{{ listing.realtor.name }}</h6>
@@ -171,18 +173,25 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{% url 'contact' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="listing_id" value="{{ listing.id }}">
                         <div class="form-group">
                             <label for="property_name" class="col-form-label">Property:</label>
-                            <input type="text" name="listing" class="form-control" value="45 Drivewood Cirlce" disabled>
+                            <input type="text" name="listing" class="form-control"
+                                   value="{{ listing.title }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-form-label">Name:</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" class="form-control" {% if user.is_authenticated %}
+                                   value="{{ request.user.username }}"
+                            {% endif %} required>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-form-label">Email:</label>
-                            <input type="email" name="email" class="form-control" required>
+                            <input type="text" name="email" class="form-control" {% if user.is_authenticated %}
+                                   value="{{ user.email }}"
+                            {% endif %} required>
                         </div>
                         <div class="form-group">
                             <label for="phone" class="col-form-label">Phone:</label>

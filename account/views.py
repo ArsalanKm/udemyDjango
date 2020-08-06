@@ -6,6 +6,7 @@ from django.contrib import messages, auth
 
 # Create your views here.
 from account.forms import UserRegistrationForm
+from contacts.models import Contact
 
 
 def register(request):
@@ -71,7 +72,9 @@ def login(request):
 
 @login_required()
 def dashboard(request):
-    return render(request, "account/dashboard.html")
+    user_contacts = Contact.objects.all().order_by('-contact_date').filter(listing__contact__user_id=request.user.id)
+    context = {'user_contacts': user_contacts}
+    return render(request, "account/dashboard.html", context)
 
 
 def logout(request):
