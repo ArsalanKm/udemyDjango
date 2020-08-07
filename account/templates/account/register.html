@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load static %}
+{% load widget_tweaks %}
 {% block title %} | Register {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+    <link rel="stylesheet" href={% static "account/styles.css" %}>
     <section id="register" class="bg-light py-5">
         <div class="container">
             <div class="row">
@@ -18,48 +20,59 @@
                             {% include "partials/alerts.html" %}
                             <form action="{% url 'register' %}" method="POST">
                                 {% csrf_token %}
-                                {% if  form.errors.first_name |   length >= 0 %}
-                                    <div class="alert alert-danger">{{ form.errors.first_name }}</div>
+                                {% if form.errors %}
+                                    <ul>
+                                        {% for error in form.errors %}
+                                            <li>{{ error.errors }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                {% if  form.first_name.errors.keys.count > 0 %}
+                                    <div class="alert alert-danger">{{ form.first_name.errors }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="first_name">First Name</label>
                                     {#                                    <input type="text" name="first_name" class="form-control" required>#}
                                     {{ form.first_name|as_crispy_field }}
                                 </div>
-                                {% if  form.errors.last_name | length >= 0 %}
-                                    <div class="alert alert-danger">{{ form.errors.last_name }}</div>
+                                {% if  form.last_name.errors.keys.count > 0 %}
+                                    <div class="alert alert-danger">{{ form.last_name.errors }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="last_name">Last Name</label>
                                     {#                                    <input type="text" name="last_name" class="form-control" required>#}
                                     {{ form.last_name|as_crispy_field }}
                                 </div>
-                                {% if  form.errors.username | length >= 0%}
-                                    <div class="alert alert-danger">{{ form.errors.username }}</div>
+                                {% if  form.username.errors.keys.count > 0 %}
+
+                                    <div class="alert alert-danger">{{ form.username.errors }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="username">Username</label>
                                     {#                                    <input type="text" name="user_name" class="form-control" required>#}
                                     {{ form.username|as_crispy_field }}
                                 </div>
-                                {% if  form.errors.email | length >= 0%}
-                                    <div class="alert alert-danger">{{ form.errors.email }}</div>
+                                {% if  form.email.errors.keys.count > 0 %}
+
+                                    <div class="alert alert-danger">{{ form.email.errors }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     {#                                    <input type="email" name="email" class="form-control" required>#}
                                     {{ form.email|as_crispy_field }}
                                 </div>
-                                {% if  form.errors.password1 | length >= 0%}
-                                    <div class="alert alert-danger">{{ form.errors.password1 }}</div>
+                                {% if  form.password1.errors.keys.count > 0 %}
+
+                                    <div class="alert alert-danger">{{ form.password1.errors }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     {#                                    <input type="password" name="password" class="form-control" required>#}
                                     {{ form.password1|as_crispy_field }}
                                 </div>
-                                {% if  form.errors.password2 | length >= 0%}
-                                    <div class="alert alert-danger">{{ form.errors.password1 }}</div>
+                                {% if  form.password1.errors.keys.count > 0 %}
+
+                                    <div class="alert alert-danger">{{ form.password1.errors }}</div>
                                 {% endif %}
                                 <div class="form-group">
                                     <label for="password2">Confirm Password</label>
@@ -74,4 +87,5 @@
             </div>
         </div>
     </section>
+    <script src="{% static 'account/main.js' %}"></script>
 {% endblock %}

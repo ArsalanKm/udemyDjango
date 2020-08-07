@@ -14,12 +14,12 @@ class UserRegistrationForm(UserCreationForm):
 
     def clean_email(self):
         if User.objects.filter(email=self.cleaned_data['email']).exists():
-            raise forms.ValidationError("")
+            raise forms.ValidationError("this email is already registered")
         return self.cleaned_data['email']
 
     def clean_username(self):
         if User.objects.filter(username=self.cleaned_data['username']).exists():
-            raise forms.ValidationError("")
+            raise forms.ValidationError("this username is already registered")
         return self.cleaned_data['username']
 
     class Meta:
