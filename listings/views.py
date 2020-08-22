@@ -60,3 +60,17 @@ def search(request):
                }
     return render(request, "listings/search.html", context)
     pass
+
+
+from rest_framework import viewsets
+from . import serializers
+from rest_framework.response import Response
+
+
+class ListingViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        queryset = Listing.objects.all()
+        serializer = serializers.ListingSerializer(queryset, many=True)
+        return Response(serializer.data)
+
